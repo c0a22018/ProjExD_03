@@ -75,7 +75,9 @@ class Bird:
                 if key_lst[k]:
                     self._rct.move_ip(-mv[0], -mv[1])
         screen.blit(self._img, self._rct)
-
+    
+    def get_direction(self):
+        return random.choice(self._delta)
 
 class Bomb:
     """
@@ -120,7 +122,7 @@ class Beam:
         self._rct.left = bird._rct.right
         self._rct.centery = bird._rct.centery
         self._vx, self._vy = +1, 0
-    
+
     
     
 
@@ -133,7 +135,6 @@ class Beam:
         self._rct.move_ip(self._vx, self._vy)
         screen.blit(self._img, self._rct)
 
-
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -143,7 +144,7 @@ def main():
     bird = Bird(3, (900, 400))
     bomb = Bomb((255, 0, 0), 10)
     beam = None
-
+    score = 0
     tmr = 0
     while True:
         for event in pg.event.get():
@@ -155,7 +156,7 @@ def main():
                                 
         tmr += 1
         screen.blit(bg_img, [0, 0])
-        
+        screen.blit(str(score),[800,100])
         if bomb is not None:
             bomb.update(screen)
             if bird._rct.colliderect(bomb._rct):
@@ -175,6 +176,7 @@ def main():
                 beam = None
                 bomb = None
                 bird.change_img(6, screen)
+                score += 1
         pg.display.update()
         clock.tick(1000)
 
