@@ -165,9 +165,7 @@ def main():
                 time.sleep(1)
                 return
                 
-           
 
-        
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
         
@@ -176,7 +174,7 @@ def main():
             if bomb is not None and beam._rct.colliderect(bomb._rct):
                 beam = None
                 bomb = None
-            
+                bird.change_img(6, screen)
         pg.display.update()
         clock.tick(1000)
 
