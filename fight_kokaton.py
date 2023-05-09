@@ -7,7 +7,7 @@ import pygame as pg
 
 WIDTH = 1200  # ゲームウィンドウの幅
 HEIGHT = 600  # ゲームウィンドウの高さ
-NUM_OF_BOMBS = 5 # 爆弾の数
+NUM_OF_BOMBS = 2 # 爆弾の数
 
 def check_bound(area: pg.Rect, obj: pg.Rect) -> tuple[bool, bool]:
     """
@@ -54,10 +54,10 @@ class Bird:
         k_imgO = pg.transform.rotozoom(pg.image.load(f"ex03/fig/{num}.png"), 0, 2.0)
         k_img1 = pg.transform.flip(k_imgO, True, False)
         self._imgs = {
-            (+1, 0): pg.transform.rotozoom(k_img1, 45, 1.0),  #　
-            (+1, -1): pg.transform.rotozoom(k_img1, 90, 1.0),  #  
-            (0, -1): pg.transform.rotozoom(k_imgO, -45, 1.0),  # 
-            (-1, -1): pg.transform.rotozoom(k_imgO, 45, 1.0),  # 
+            (+1, 0): k_img1,
+            (+1, -1): pg.transform.rotozoom(k_img1, 45, 1.0),
+            (0, -1): pg.transform.rotozoom(k_img1, 90, 1.0),  
+            (-1, -1): pg.transform.rotozoom(k_imgO, -45, 1.0), 
             (-1, 0): k_imgO,
             (-1, +1): pg.transform.rotozoom(k_imgO, 45, 1.0),
             (0, +1): pg.transform.rotozoom(k_img1, -90, 1.0),
@@ -94,7 +94,7 @@ class Bird:
             for k, mv in __class__._delta.items():
                 if key_lst[k]:
                     self._rct.move_ip(-mv[0], -mv[1])
-        if sum_mv[0] != 0 and sum_mv[1] != 1:
+        if not (sum_mv[0] == 0 and sum_mv[1] == 0):
             self._img = self._imgs[tuple(sum_mv)]
         screen.blit(self._img, self._rct)
 
@@ -109,7 +109,7 @@ class Bomb:
         """
         爆弾円Surfaceを生成する
         """
-        rad = random.randint(1,30)
+        rad = random.randint(5,30)
         self._img = pg.Surface((2*rad, 2*rad))
         pg.draw.circle(self._img, random.choice(Bomb._colors), (rad, rad), rad)
         self._img.set_colorkey((0, 0, 0))
