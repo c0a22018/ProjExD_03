@@ -156,7 +156,7 @@ def main():
                                 
         tmr += 1
         screen.blit(bg_img, [0, 0])
-        screen.blit(str(score),[800,100])
+        #screen.blit(score,[800,100])
         if bomb is not None:
             bomb.update(screen)
             if bird._rct.colliderect(bomb._rct):
@@ -176,6 +176,9 @@ def main():
                 beam = None
                 bomb = None
                 bird.change_img(6, screen)
+                pg.display.update()
+                time.sleep(1)
+                return
                 score += 1
         pg.display.update()
         clock.tick(1000)
